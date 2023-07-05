@@ -855,15 +855,12 @@ Resources:
                           "amazonec2-vpc-id=${VpcId}",
                           "amazonec2-zone=${AvailabilityZone}",
                           "amazonec2-subnet-id=${SubnetId}",
+                          "amazonec2-ami=ami-01e076d5c9e040974",
                           "amazonec2-security-group=${AWS::StackName}-RunnersSecurityGroup",
                           "amazonec2-use-private-address=true",
                           "amazonec2-iam-instance-profile=${RunnersInstanceProfile}"
                           ${LocalSpotVar}
                         ]
-                        OffPeakTimezone = "${GitlabOffPeakTimezone}"
-                        OffPeakPeriods = ["* * 0-8,18-23 * * mon-fri *", "* * * * * sat,sun *"]
-                        OffPeakIdleCount = ${GitlabOffPeakIdleCount}
-                        OffPeakIdleTime = ${GitlabOffPeakIdleTime}
                   - LocalSpotVar: !If ['UseSpotInstances', !Sub ', "amazonec2-request-spot-instance=true", "amazonec2-spot-price=${GitlabRunnerSpotInstancePrice}"', '']
             '/etc/rsyslog.d/25-gitlab-runner.conf':
               owner: 'root'
