@@ -651,6 +651,21 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
       Policies:
+        - PolicyName: EC2-Tags
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'ec2:DeleteTags'
+                  - 'ec2:DescribeTags'
+                  - 'ec2:CreateTags'
+                Resource:
+                  - '*'
+			          Condition:
+				          ForAnyValue:StringEquals:
+					          ec2:Region:
+                      - "us-east-1"
         - PolicyName: Cache
           PolicyDocument:
             Version: '2012-10-17'
@@ -858,6 +873,7 @@ Resources:
                           "amazonec2-ami=ami-01e076d5c9e040974",
                           "amazonec2-security-group=${AWS::StackName}-RunnersSecurityGroup",
                           "amazonec2-use-private-address=true",
+                          "amazonec2-tags=environment,GITLAB",
                           "amazonec2-iam-instance-profile=${RunnersInstanceProfile}"
                           ${LocalSpotVar}
                         ]
